@@ -1,0 +1,9 @@
+{
+  "name": "Java Battlesnake",
+  "description": "A Java Battlesnake written by Big_Bad_E",
+  "repository": "https://github.com/BigBadE/JavaBattlesnake",
+  "keywords": [
+    "battlesnake",
+    "java"
+  ]
+}
