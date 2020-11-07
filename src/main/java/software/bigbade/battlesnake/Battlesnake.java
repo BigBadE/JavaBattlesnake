@@ -9,14 +9,13 @@ import software.bigbade.battlesnake.network.ResponseHandler;
 public final class Battlesnake {
     public static final Logger LOGGER = LoggerFactory.getLogger(Battlesnake.class);
 
-    private final ResponseHandler responseHandler;
-
     public static void main(String[] args) {
-        new Battlesnake(args);
+        Battlesnake battlesnake = new Battlesnake();
+        battlesnake.setup();
     }
 
-    private Battlesnake(String[] args) {
-        responseHandler = new ResponseHandler(new SnakeArguments(args));
+    private void setup() {
+        ResponseHandler responseHandler = new ResponseHandler(new SnakeArguments());
         NetworkUtils.setupNetworkreciever(responseHandler);
     }
 }
