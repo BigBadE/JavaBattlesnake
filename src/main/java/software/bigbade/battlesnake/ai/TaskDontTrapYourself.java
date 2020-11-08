@@ -15,7 +15,6 @@ import java.util.Set;
 public class TaskDontTrapYourself implements IAITask {
     @Override
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
-        long start = System.currentTimeMillis();
         //Remove the tail to simulate snake movement. Could get juked if the snake eats an apple.
         List<Position> extraTails = new ArrayList<>();
         for (Snake found : game.getSnakes()) {
@@ -25,11 +24,14 @@ public class TaskDontTrapYourself implements IAITask {
         }
 
         for (GameMove move : GameMove.values()) {
+            long start = System.currentTimeMillis();
             int empty = floodFill(move.getRelative(snake.getHead()), game);
             if(empty == 0) {
                 moves.replace(move, 0d);
             } else {
                 moves.replace(move, game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
+                Battlesnake.info("FILL TIME: {} for {}", (System.currentTimeMillis() - start),
+                        game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
             }
         }
 
@@ -37,7 +39,7 @@ public class TaskDontTrapYourself implements IAITask {
             Snake found = game.getSnakes().get(i);
             found.getBody().add(extraTails.get(i));
         }
-        Battlesnake.info("FILL TIME: {}", (System.currentTimeMillis() - start));
+
     }
 
     //TODO improve flood fill algorithm for finding empty space. Recursion might be better?
