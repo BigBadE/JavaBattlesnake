@@ -56,6 +56,7 @@ public class TaskDontTrapYourself implements IAITask {
                 }
             }
             valid = nextCycle;
+            Battlesnake.info("Loop: size {}", valid.size());
         }
         return found;
     }
