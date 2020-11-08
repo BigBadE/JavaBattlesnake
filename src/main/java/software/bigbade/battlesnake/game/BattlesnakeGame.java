@@ -30,6 +30,7 @@ public class BattlesnakeGame {
             hazards.add(JsonUtil.getPosition(object));
         }
 
+        int numb = 1;
         for(JsonElement element : board.get("snakes").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
             List<Position> body = new ArrayList<>();
@@ -41,7 +42,7 @@ public class BattlesnakeGame {
             snakes.add(new Snake(object.get("id").getAsString(),
                     JsonUtil.getPosition(head), body,
                     object.get("health").getAsInt(), object.get("length").getAsInt(),
-                    object.get("squad").getAsInt()));
+                    object.has("squad") ? object.get("squad").getAsInt() : numb++));
         }
     }
 
