@@ -15,6 +15,7 @@ public final class NetworkUtils {
             Battlesnake.LOGGER.info("Using default port: {}", port);
         }
         Spark.port(Integer.parseInt(port));
+        Spark.post("/", responseHandler::process, responseHandler.getGson()::toJson);
         Spark.post("/start", responseHandler::process, responseHandler.getGson()::toJson);
         Spark.post("/move", responseHandler::process, responseHandler.getGson()::toJson);
         Spark.post("/end", responseHandler::process, responseHandler.getGson()::toJson);
