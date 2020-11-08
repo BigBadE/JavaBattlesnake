@@ -18,4 +18,18 @@ public enum GameMove {
     public Position getRelative(Position position) {
         return position.subtract(relativePosition);
     }
+
+    public GameMove getOpposite() {
+        switch (this) {
+            case UP:
+                return DOWN;
+            case DOWN:
+                return UP;
+            case LEFT:
+                return RIGHT;
+            case RIGHT:
+                return LEFT;
+        }
+        throw new IllegalStateException("No GameMove opposite for " + this);
+    }
 }

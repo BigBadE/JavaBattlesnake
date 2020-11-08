@@ -27,7 +27,7 @@ public class TaskDontTrapYourself implements IAITask {
             if (moves.get(move) == 0) {
                 continue;
             }
-            int empty = floodFill(move.getRelative(snake.getHead()), game);
+            int empty = floodFill(move.getOpposite().getRelative(snake.getHead()), game);
             if (empty == 0) {
                 moves.replace(move, 0d);
                 continue;
