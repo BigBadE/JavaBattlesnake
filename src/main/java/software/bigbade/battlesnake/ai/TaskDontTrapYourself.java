@@ -8,7 +8,6 @@ import software.bigbade.battlesnake.util.Position;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,23 +18,23 @@ public class TaskDontTrapYourself implements IAITask {
         long start = System.currentTimeMillis();
         //Remove the tail to simulate snake movement. Could get juked if the snake eats an apple.
         List<Position> extraTails = new ArrayList<>();
-        for(Snake found : game.getSnakes()) {
-            int index = found.getBody().size()-1;
+        for (Snake found : game.getSnakes()) {
+            int index = found.getBody().size() - 1;
             extraTails.add(found.getBody().get(index));
             found.getBody().remove(index);
         }
 
-        for(GameMove move : GameMove.values()) {
+        for (GameMove move : GameMove.values()) {
             int empty = floodFill(move.getRelative(snake.getHead()), game);
             assert empty != 0;
-            moves.replace(move, game.getSize().getX()*game.getSize().getY()/empty*5*moves.get(move));
+            moves.replace(move, game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
         }
 
-        for(int i = 0; i < game.getSnakes().size(); i++) {
+        for (int i = 0; i < game.getSnakes().size(); i++) {
             Snake found = game.getSnakes().get(i);
             found.getBody().add(extraTails.get(i));
         }
-        Battlesnake.info("FILL TIME: {}", (System.currentTimeMillis()-start));
+        Battlesnake.info("FILL TIME: {}", (System.currentTimeMillis() - start));
     }
 
     //TODO improve flood fill algorithm for finding empty space
@@ -47,13 +46,14 @@ public class TaskDontTrapYourself implements IAITask {
         while (!valid.isEmpty()) {
             Set<Position> nextCycle = new HashSet<>();
             for (Position testing : valid) {
-                if(checked.contains(testing)) {
-                    Battlesnake.info("TEST ING");
-                }
                 if (!checked.contains(testing) && !TaskAvoidWalls.touchingBody(game.getSnakes(), testing)) {
                     checked.add(testing);
                     for (GameMove move : GameMove.values()) {
-                        nextCycle.add(move.getRelative(testing));
+                        Position relative = move.getRelative(testing);
+                        if (relative.getX() >= 0 && relative.getX() < game.getSize().getX()
+                                && relative.getY() >= 0 && relative.getY() < game.getSize().getY()) {
+                            nextCycle.add(relative);
+                        }
                     }
                     found += 1;
                 }
