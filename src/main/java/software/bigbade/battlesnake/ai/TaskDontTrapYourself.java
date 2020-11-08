@@ -9,6 +9,7 @@ import software.bigbade.battlesnake.util.Position;
 import java.util.Map;
 
 public class TaskDontTrapYourself implements IAITask {
+    private double cachedRoot = -1;
     @Override
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
         //Remove the tail to simulate snake movement. Could get juked if the snake eats an apple.
@@ -21,10 +22,14 @@ public class TaskDontTrapYourself implements IAITask {
             if (moves.get(move) == 0) {
                 continue;
             }
+            if(cachedRoot == -1) {
+                cachedRoot = Math.pow(3, 1d/(game.getSize().getX()*game.getSize().getY()));
+            }
             int empty = fillArea(move.getRelative(snake.getHead()), game.getBoard());
-            Battlesnake.info("EMPTY: {} for {}",
-                    empty / (float) ((game.getSize().getX()+1) * (game.getSize().getY()+1)) * moves.get(move), move);
-            moves.replace(move, empty / (float) ((game.getSize().getX()+1) * (game.getSize().getY()+1)) * moves.get(move));
+            Battlesnake.info("EMPTY: {}, {} for {}",
+                    empty,
+                    (5*Math.pow(cachedRoot, empty)-5) * moves.get(move), move);
+            moves.replace(move, (5*Math.pow(cachedRoot, empty)-5) * moves.get(move));
         }
 
         for (Snake found : game.getSnakes()) {
