@@ -23,7 +23,8 @@ public class TaskDontTrapYourself implements IAITask {
         }
 
         for(GameMove move : GameMove.values()) {
-            int empty = floodFill(move.getRelative(snake.getHead()), game, new HashSet<>());
+            int empty = floodFill(move.getRelative(snake.getHead()), game);
+            assert empty != 0;
             moves.replace(move, game.getSize().getX()*game.getSize().getY()/empty*5*moves.get(move));
         }
 
@@ -33,14 +34,27 @@ public class TaskDontTrapYourself implements IAITask {
         }
     }
 
-    private int floodFill(Position position, BattlesnakeGame game, Set<Position> checked) {
+    //TODO improve flood fill algorithm for finding empty space
+    private int floodFill(Position position, BattlesnakeGame game) {
         int found = 0;
+        Set<Position> valid = new HashSet<>();
+        valid.add(position);
+        Set<Position> checked = new HashSet<>();
+        while (!valid.isEmpty()) {
+            for(Position testing : valid) {
+                if (!checked.contains(testing) && !TaskAvoidWalls.touchingBody(game.getSnakes(), testing)) {
+                    checked.add(testing);
+                    valid.remove(testing);
+                    for(GameMove move : GameMove.values()) {
+                        valid.add(move.getRelative(testing));
+                    }
+                    found += 1;
+                }
+            }
+        }
         for(GameMove move : GameMove.values()) {
             Position relative = move.getRelative(position);
-            if(!checked.contains(relative) && !TaskAvoidWalls.touchingBody(game.getSnakes(), relative)) {
-                checked.add(relative);
-                found += floodFill(relative, game, checked);
-            }
+
         }
         return found;
     }
