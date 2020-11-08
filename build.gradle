@@ -31,6 +31,12 @@ test {
     useJUnitPlatform()
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'software.bigbade.battlesnake.Battlesnake'
+    }
+}
+
 //Required for Heroku
 task stage(dependsOn: ['build', 'clean'])
 
