@@ -6,9 +6,7 @@ import software.bigbade.battlesnake.game.GameMove;
 import software.bigbade.battlesnake.game.Snake;
 import software.bigbade.battlesnake.util.Position;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class TaskDontTrapYourself implements IAITask {
     @Override
@@ -23,7 +21,7 @@ public class TaskDontTrapYourself implements IAITask {
             if (moves.get(move) == 0) {
                 continue;
             }
-            int empty = floodFill(move.getRelative(snake.getHead()), game, new HashSet<>());
+            int empty = fillArea(move.getRelative(snake.getHead()), game.getBoard());
             Battlesnake.info("EMPTY: {} for {}", empty, move);
             if (empty == 0) {
                 moves.replace(move, .01d);
@@ -38,17 +36,49 @@ public class TaskDontTrapYourself implements IAITask {
         }
     }
 
-    private int floodFill(Position position, BattlesnakeGame game, Set<Position> checked) {
+    public static int fillArea(Position position, boolean[][] arr) {
+        int maxX = arr.length - 1;
+        int maxY = arr[0].length - 1;
+        int[][] stack = new int[(maxX+1)*(maxY+1)][2];
+        int index = 0;
         int found = 0;
-        if (position.getX() >= 0 && position.getX() <= game.getSize().getX()
-                && position.getY() >= 0 && position.getY() <= game.getSize().getY()
-                && !checked.contains(position) && !game.getBoard()[position.getX()][position.getY()]) {
-            found += 1;
-            for (GameMove move : GameMove.values()) {
-                Position relative = move.getRelative(position);
 
-                checked.add(relative);
-                found += floodFill(relative, game, checked);
+        stack[0][0] = position.getX();
+        stack[0][1] = position.getY();
+        arr[position.getX()][position.getY()] = true;
+
+        while (index >= 0){
+            position.setX(stack[index][0]);
+            position.setY(stack[index][1]);
+            index--;
+            found++;
+
+            if ((position.getX() > 0) && !arr[position.getX() - 1][position.getY()]){
+                arr[position.getX()-1][position.getY()] = true;
+                index++;
+                stack[index][0] = position.getX()-1;
+                stack[index][1] = position.getY();
+            }
+
+            if ((position.getX() < maxX) && !arr[position.getX()+1][position.getY()]){
+                arr[position.getX()+1][position.getY()] = true;
+                index++;
+                stack[index][0] = position.getX()+1;
+                stack[index][1] = position.getY();
+            }
+
+            if ((position.getY() > 0) && !arr[position.getX()][position.getY()-1]){
+                arr[position.getX()][position.getY()-1] = true;
+                index++;
+                stack[index][0] = position.getX();
+                stack[index][1] = position.getY()-1;
+            }
+
+            if ((position.getY() < maxY) && !arr[position.getX()][position.getY()+1]){
+                arr[position.getX()][position.getY()+1] = true;
+                index++;
+                stack[index][0] = position.getX();
+                stack[index][1] = position.getY()+1;
             }
         }
         return found;

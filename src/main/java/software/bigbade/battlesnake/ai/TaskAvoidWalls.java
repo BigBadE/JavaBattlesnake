@@ -1,12 +1,10 @@
 package software.bigbade.battlesnake.ai;
 
-import software.bigbade.battlesnake.Battlesnake;
 import software.bigbade.battlesnake.game.BattlesnakeGame;
 import software.bigbade.battlesnake.game.GameMove;
 import software.bigbade.battlesnake.game.Snake;
 import software.bigbade.battlesnake.util.Position;
 
-import java.util.List;
 import java.util.Map;
 
 public class TaskAvoidWalls implements IAITask {
@@ -20,18 +18,6 @@ public class TaskAvoidWalls implements IAITask {
                 moves.replace(move, 0d);
             }
         }
-    }
-
-    //TODO possibly optimize this.
-    public static boolean touchingBody(List<Snake> snakes, Position position) {
-        for(Snake testing : snakes) {
-            for(Position body : testing.getBody()) {
-                if(body.equals(position)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     @Override

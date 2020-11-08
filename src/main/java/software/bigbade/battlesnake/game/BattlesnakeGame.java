@@ -19,7 +19,7 @@ public class BattlesnakeGame {
     private final List<Position> food = new ArrayList<>();
     private final List<Snake> snakes = new ArrayList<>();
 
-    private final boolean[][] board;
+    private boolean[][] board;
 
     public BattlesnakeGame(JsonObject board, String snake) {
         size = new Position(board.get("width").getAsInt()-1, board.get("height").getAsInt()-1);
@@ -30,13 +30,13 @@ public class BattlesnakeGame {
             food.add(JsonUtil.getPosition(object));
         }
 
+        emptyTiles = defaultEmptyTiles;
         for(JsonElement element : board.get("hazards").getAsJsonArray()) {
             Position position = JsonUtil.getPosition((JsonObject) element);
             this.board[position.getX()][position.getY()] = true;
-            defaultEmptyTiles -= 1;
+            emptyTiles -= 1;
         }
 
-        emptyTiles = defaultEmptyTiles;
         int numb = 1;
         for(JsonElement element : board.get("snakes").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
@@ -64,14 +64,23 @@ public class BattlesnakeGame {
             food.add(JsonUtil.getPosition(object));
         }
 
+        this.board = new boolean[size.getX()+1][size.getY()+1];
+
         emptyTiles = defaultEmptyTiles;
+        for(JsonElement element : board.get("hazards").getAsJsonArray()) {
+            Position position = JsonUtil.getPosition((JsonObject) element);
+            this.board[position.getX()][position.getY()] = true;
+            emptyTiles -= 1;
+        }
+
         for(JsonElement element : board.get("snakes").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
             Snake updating = getSnakeByID(object.get("id").getAsString());
             List<Position> body = new ArrayList<>();
             for(JsonElement bodyElement : object.get("body").getAsJsonArray()) {
-                JsonObject bodyObject = (JsonObject) bodyElement;
-                body.add(JsonUtil.getPosition(bodyObject));
+                Position position = JsonUtil.getPosition((JsonObject) bodyElement);
+                body.add(position);
+                this.board[position.getX()][position.getY()] = true;
             }
             updating.setBody(body);
             updating.setHealth(object.get("health").getAsInt());
