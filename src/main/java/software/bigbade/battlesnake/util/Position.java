@@ -18,6 +18,10 @@ public class Position {
         return Math.pow(x-other.getX(), 2)-Math.pow(y-other.getY(), 2);
     }
 
+    public Position subtract(Position other) {
+        return new Position(x-other.getX(), y-other.getY());
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Position)) {
