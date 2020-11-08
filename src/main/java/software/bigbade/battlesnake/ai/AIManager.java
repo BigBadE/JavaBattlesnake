@@ -27,7 +27,7 @@ public class AIManager {
         }
         for(IAITask task : tasks) {
             if(main || task.runOnOthers()) {
-                task.executeTask(moves, game, snake);
+                task.executeTask(moves, game, this, snake);
             }
         }
         double max = Collections.max(moves.values());

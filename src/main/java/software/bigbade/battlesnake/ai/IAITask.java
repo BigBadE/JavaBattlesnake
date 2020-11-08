@@ -7,7 +7,7 @@ import software.bigbade.battlesnake.game.Snake;
 import java.util.Map;
 
 public interface IAITask {
-    void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake);
+    void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, AIManager manager, Snake snake);
 
     boolean runOnOthers();
 }

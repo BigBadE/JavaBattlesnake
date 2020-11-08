@@ -10,7 +10,13 @@ import java.util.Map;
 
 public class TaskAvoidWalls implements IAITask {
     @Override
-    public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
+    public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, AIManager manager, Snake snake) {
+        //Remove the tail to simulate snake movement. Could get juked if the snake eats an apple.
+        for (Snake found : game.getSnakes()) {
+            Position tail = found.getBody().get(found.getBody().size() - 1);
+            game.getBoard()[tail.getX()][tail.getY()] = false;
+        }
+
         for (GameMove move : GameMove.values()) {
             Position relative = move.getRelative(snake.getHead());
             if (relative.getX() > game.getSize().getX() || relative.getY() > game.getSize().getY()
@@ -19,6 +25,11 @@ public class TaskAvoidWalls implements IAITask {
                 Battlesnake.info("Wall at {}", move);
                 moves.replace(move, 0d);
             }
+        }
+
+        for (Snake found : game.getSnakes()) {
+            Position tail = found.getBody().get(found.getBody().size() - 1);
+            game.getBoard()[tail.getX()][tail.getY()] = true;
         }
     }
 

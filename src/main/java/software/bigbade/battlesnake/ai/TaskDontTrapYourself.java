@@ -11,7 +11,7 @@ import java.util.Map;
 public class TaskDontTrapYourself implements IAITask {
     private double cachedRoot = -1;
     @Override
-    public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
+    public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, AIManager manager, Snake snake) {
         //Remove the tail to simulate snake movement. Could get juked if the snake eats an apple.
         for (Snake found : game.getSnakes()) {
             Position tail = found.getBody().get(found.getBody().size() - 1);

@@ -29,4 +29,17 @@ public class Snake {
         this.length = length;
         this.squad = squad;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Snake)) {
+            return false;
+        }
+        return ((Snake) obj).id.equals(id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
