@@ -1,5 +1,6 @@
 package software.bigbade.battlesnake.ai;
 
+import software.bigbade.battlesnake.Battlesnake;
 import software.bigbade.battlesnake.game.BattlesnakeGame;
 import software.bigbade.battlesnake.game.GameMove;
 import software.bigbade.battlesnake.game.Snake;
@@ -15,6 +16,7 @@ public class TaskAvoidWalls implements IAITask {
             if (relative.getX() > game.getSize().getX() || relative.getY() > game.getSize().getY()
                     || relative.getX() == -1 || relative.getY() == -1
                     || game.getBoard()[relative.getX()][relative.getY()]) {
+                Battlesnake.info("Wall at {}", move);
                 moves.replace(move, 0d);
             }
         }
