@@ -14,7 +14,7 @@ public class TaskAvoidWalls implements IAITask {
         //Remove the tail to simulate snake movement. Could get juked if the snake eats an apple.
         for (Snake found : game.getSnakes()) {
             if(!found.isGrowing()) {
-                Position tail = found.getBody().get(found.getBody().size() - 1);
+                Position tail = found.getBody().get(0);
                 game.getBoard()[tail.getX()][tail.getY()] = false;
             }
         }
@@ -31,7 +31,7 @@ public class TaskAvoidWalls implements IAITask {
 
         for (Snake found : game.getSnakes()) {
             if(!found.isGrowing()) {
-                Position tail = found.getBody().get(found.getBody().size() - 1);
+                Position tail = found.getBody().get(0);
                 game.getBoard()[tail.getX()][tail.getY()] = true;
             }
         }
