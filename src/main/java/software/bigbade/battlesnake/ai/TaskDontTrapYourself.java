@@ -25,7 +25,7 @@ public class TaskDontTrapYourself implements IAITask {
             if(cachedRoot == -1) {
                 cachedRoot = Math.pow(3, 1d/(game.getSize().getX()*game.getSize().getY()));
             }
-            int empty = fillArea(move.getRelative(snake.getHead()), game.getBoard());
+            int empty = fillArea(move.getRelative(snake.getHead()), game);
             Battlesnake.info("EMPTY: {}, MOVE {}", empty, move);
             moves.replace(move, (5*Math.pow(cachedRoot, empty)-5) * moves.get(move));
         }
@@ -36,9 +36,9 @@ public class TaskDontTrapYourself implements IAITask {
         }
     }
 
-    public static int fillArea(Position position, boolean[][] arr) {
-        int maxX = arr.length - 1;
-        int maxY = arr[0].length - 1;
+    public static int fillArea(Position position, BattlesnakeGame game) {
+        int maxX = game.getSize().getX();
+        int maxY = game.getSize().getY();
         boolean[][] checked = new boolean[maxX + 1][maxY + 1];
         int[][] stack = new int[(maxX + 1) * (maxY + 1)][2];
         int index = 0;
@@ -48,13 +48,13 @@ public class TaskDontTrapYourself implements IAITask {
         stack[0][1] = position.getY();
         checked[position.getX()][position.getY()] = true;
 
-        while (index >= 0) {
+        while (index >= 0 && found <= game.getSnake().getLength()*2+game.getFood().size()) {
             position.setX(stack[index][0]);
             position.setY(stack[index][1]);
             index--;
             found++;
 
-            if ((position.getX() > 0) && !arr[position.getX() - 1][position.getY()]
+            if ((position.getX() > 0) && !game.getBoard()[position.getX() - 1][position.getY()]
                     && !checked[position.getX() - 1][position.getY()]) {
                 checked[position.getX() - 1][position.getY()] = true;
                 index++;
@@ -62,7 +62,7 @@ public class TaskDontTrapYourself implements IAITask {
                 stack[index][1] = position.getY();
             }
 
-            if ((position.getX() < maxX) && !arr[position.getX() + 1][position.getY()]
+            if ((position.getX() < maxX) && !game.getBoard()[position.getX() + 1][position.getY()]
                     && !checked[position.getX() + 1][position.getY()]) {
                 checked[position.getX() + 1][position.getY()] = true;
                 index++;
@@ -70,7 +70,7 @@ public class TaskDontTrapYourself implements IAITask {
                 stack[index][1] = position.getY();
             }
 
-            if ((position.getY() > 0) && !arr[position.getX()][position.getY() - 1]
+            if ((position.getY() > 0) && !game.getBoard()[position.getX()][position.getY() - 1]
                     && !checked[position.getX()][position.getY() - 1]) {
                 checked[position.getX()][position.getY() - 1] = true;
                 index++;
@@ -78,7 +78,7 @@ public class TaskDontTrapYourself implements IAITask {
                 stack[index][1] = position.getY() - 1;
             }
 
-            if ((position.getY() < maxY) && !arr[position.getX()][position.getY() + 1]
+            if ((position.getY() < maxY) && !game.getBoard()[position.getX()][position.getY() + 1]
                     && !checked[position.getX()][position.getY() + 1]) {
                 checked[position.getX()][position.getY() + 1] = true;
                 index++;
