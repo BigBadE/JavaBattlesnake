@@ -15,7 +15,6 @@ import spark.Response;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class ResponseHandler {
     /**
      * Generic processor that prints out the request and response from the methods.
      *
-     * @param request Incoming request
+     * @param request  Incoming request
      * @param response Response modifier
      * @return Content to send to the Battlesnake server
      */
