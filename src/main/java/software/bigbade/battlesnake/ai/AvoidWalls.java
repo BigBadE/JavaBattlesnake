@@ -18,7 +18,6 @@ public class AvoidWalls implements IAITask {
                     || relative.getX() > game.getSize().getX() || relative.getY() > game.getSize().getY()
                     || relative.getX() == -1 || relative.getY() == -1
                     || touchingBody(game.getSnakes(), relative)) {
-                Battlesnake.info("Found wall: " + move);
                 moves.replace(move, 0d);
             }
         }
@@ -34,11 +33,6 @@ public class AvoidWalls implements IAITask {
             }
         }
         return false;
-    }
-
-    @Override
-    public int getPriority() {
-        return Integer.MAX_VALUE;
     }
 
     @Override

@@ -6,14 +6,13 @@ import software.bigbade.battlesnake.game.GameMove;
 import software.bigbade.battlesnake.game.Snake;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class AIManager {
-    private final Set<IAITask> tasks = new TreeSet<>(Comparator.comparingInt(IAITask::getPriority));
+    private final Set<IAITask> tasks = new HashSet<>();
 
     public AIManager() {
         tasks.add(new AvoidWalls());
@@ -27,6 +26,7 @@ public class AIManager {
         }
         for(IAITask task : tasks) {
             if(main || task.runOnOthers()) {
+                Battlesnake.info("Calling task " + task);
                 task.executeTask(moves, game, snake);
             }
         }

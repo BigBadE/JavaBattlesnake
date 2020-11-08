@@ -9,7 +9,5 @@ import java.util.Map;
 public interface IAITask {
     void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake);
 
-    int getPriority();
-
     boolean runOnOthers();
 }

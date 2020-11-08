@@ -53,11 +53,6 @@ public class AIGetFood implements IAITask {
     }
 
     @Override
-    public int getPriority() {
-        return Integer.MAX_VALUE;
-    }
-
-    @Override
     public boolean runOnOthers() {
         return true;
     }
