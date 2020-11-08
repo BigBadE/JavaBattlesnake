@@ -17,11 +17,13 @@ public class BattlesnakeGame {
     private int emptyTiles;
 
     private final List<Position> food = new ArrayList<>();
-    private final List<Position> hazards = new ArrayList<>();
     private final List<Snake> snakes = new ArrayList<>();
+
+    private final boolean[][] board;
 
     public BattlesnakeGame(JsonObject board, String snake) {
         size = new Position(board.get("width").getAsInt()-1, board.get("height").getAsInt()-1);
+        this.board = new boolean[size.getX()][size.getY()];
         defaultEmptyTiles = size.getX()*size.getY();
         for(JsonElement element : board.get("food").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
@@ -29,8 +31,8 @@ public class BattlesnakeGame {
         }
 
         for(JsonElement element : board.get("hazards").getAsJsonArray()) {
-            JsonObject object = (JsonObject) element;
-            hazards.add(JsonUtil.getPosition(object));
+            Position position = JsonUtil.getPosition((JsonObject) element);
+            this.board[position.getX()][position.getY()] = true;
             defaultEmptyTiles -= 1;
         }
 
@@ -40,8 +42,9 @@ public class BattlesnakeGame {
             JsonObject object = (JsonObject) element;
             List<Position> body = new ArrayList<>();
             for(JsonElement bodyElement : object.get("body").getAsJsonArray()) {
-                JsonObject bodyObject = (JsonObject) bodyElement;
-                body.add(JsonUtil.getPosition(bodyObject));
+                Position position = JsonUtil.getPosition((JsonObject) bodyElement);
+                body.add(position);
+                this.board[position.getX()][position.getY()] = true;
             }
             JsonObject head = object.get("head").getAsJsonObject();
             Snake newSnake = new Snake(object.get("id").getAsString(),

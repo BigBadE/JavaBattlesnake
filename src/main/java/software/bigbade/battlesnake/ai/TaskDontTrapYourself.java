@@ -6,9 +6,7 @@ import software.bigbade.battlesnake.game.GameMove;
 import software.bigbade.battlesnake.game.Snake;
 import software.bigbade.battlesnake.util.Position;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,11 +14,9 @@ public class TaskDontTrapYourself implements IAITask {
     @Override
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
         //Remove the tail to simulate snake movement. Could get juked if the snake eats an apple.
-        List<Position> extraTails = new ArrayList<>();
         for (Snake found : game.getSnakes()) {
-            int index = found.getBody().size() - 1;
-            extraTails.add(found.getBody().get(index));
-            found.getBody().remove(index);
+            Position tail = found.getBody().get(found.getBody().size()-1);
+            game.getBoard()[tail.getX()][tail.getY()] = false;
         }
 
         for (GameMove move : GameMove.values()) {
@@ -28,7 +24,7 @@ public class TaskDontTrapYourself implements IAITask {
                 continue;
             }
             int empty = floodFill(move.getRelative(snake.getHead()), game, new HashSet<>());
-            Battlesnake.info("EMPTY: {}", empty);
+            Battlesnake.info("EMPTY: {} for {}", empty, move);
             if (empty == 0) {
                 moves.replace(move, .01d);
                 continue;
@@ -36,18 +32,17 @@ public class TaskDontTrapYourself implements IAITask {
             moves.replace(move, game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
         }
 
-        for (int i = 0; i < game.getSnakes().size(); i++) {
-            Snake found = game.getSnakes().get(i);
-            found.getBody().add(extraTails.get(i));
+        for (Snake found : game.getSnakes()) {
+            Position tail = found.getBody().get(found.getBody().size()-1);
+            game.getBoard()[tail.getX()][tail.getY()] = true;
         }
     }
 
     private int floodFill(Position position, BattlesnakeGame game, Set<Position> checked) {
         int found = 0;
-        if (!checked.contains(position) && !TaskAvoidWalls.touchingBody(game.getSnakes(), position)
+        if (!checked.contains(position) && !game.getBoard()[position.getX()][position.getY()]
                 && position.getX() >= 0 && position.getX() <= game.getSize().getX()
                 && position.getY() >= 0 && position.getY() <= game.getSize().getY()) {
-            Battlesnake.info("PASSED");
             found += 1;
             for (GameMove move : GameMove.values()) {
                 Position relative = move.getRelative(position);
@@ -56,7 +51,6 @@ public class TaskDontTrapYourself implements IAITask {
                 found += floodFill(relative, game, checked);
             }
         }
-        Battlesnake.info("DONE");
         return found;
     }
 
