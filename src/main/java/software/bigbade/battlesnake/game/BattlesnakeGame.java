@@ -57,7 +57,7 @@ public class BattlesnakeGame {
         this.snake = getSnakeByID(snake);
     }
 
-    public void update(JsonObject board) {
+    public void update(JsonObject board, int turn) {
         food.clear();
         for(JsonElement element : board.get("food").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
@@ -86,7 +86,9 @@ public class BattlesnakeGame {
             updating.setHealth(object.get("health").getAsInt());
             updating.setLength(object.get("length").getAsInt());
             updating.setHead(JsonUtil.getPosition(object.get("head").getAsJsonObject()));
-            updating.setGrowing(false);
+            if(turn > 2) {
+                updating.setGrowing(false);
+            }
             emptyTiles -= updating.getLength();
         }
     }

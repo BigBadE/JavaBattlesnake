@@ -17,7 +17,7 @@ public class GameManager {
 
         BattlesnakeGame game = games.get(JsonUtil.getId(object.get("game")));
 
-        game.update(board);
+        game.update(board, object.get("turn").getAsInt());
 
         return aiManager.getMove(game, game.getSnake(), true);
     }
