@@ -23,7 +23,7 @@ public class BattlesnakeGame {
 
     public BattlesnakeGame(JsonObject board, String snake) {
         size = new Position(board.get("width").getAsInt()-1, board.get("height").getAsInt()-1);
-        this.board = new boolean[size.getX()][size.getY()];
+        this.board = new boolean[size.getX()+1][size.getY()+1];
         defaultEmptyTiles = size.getX()*size.getY();
         for(JsonElement element : board.get("food").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
