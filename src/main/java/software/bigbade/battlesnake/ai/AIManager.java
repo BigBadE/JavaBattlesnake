@@ -22,6 +22,7 @@ public class AIManager {
 
     public AIManager() {
         tasks.add(new TaskAvoidWalls());
+        tasks.add(new TaskDontLoseHeadToHeads());
         tasks.add(new TaskGetFood());
         tasks.add(new TaskDontTrapYourself());
     }
