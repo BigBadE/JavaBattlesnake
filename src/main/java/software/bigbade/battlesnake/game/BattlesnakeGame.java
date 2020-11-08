@@ -19,7 +19,7 @@ public class BattlesnakeGame {
     private final List<Snake> snakes = new ArrayList<>();
 
     public BattlesnakeGame(JsonObject board, String snake) {
-        size = new Position(board.get("width").getAsInt(), board.get("height").getAsInt());
+        size = new Position(board.get("width").getAsInt()-1, board.get("height").getAsInt()-1);
 
         for(JsonElement element : board.get("food").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
