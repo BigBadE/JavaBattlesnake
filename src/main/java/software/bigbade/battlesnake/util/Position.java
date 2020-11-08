@@ -2,6 +2,7 @@ package software.bigbade.battlesnake.util;
 
 import lombok.Getter;
 import lombok.Setter;
+import software.bigbade.battlesnake.Battlesnake;
 
 @Getter
 @Setter
@@ -25,9 +26,13 @@ public class Position {
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Position)) {
+            Battlesnake.info("WRONG!");
             return false;
         }
         Position pos = (Position) obj;
+        if(pos.getX() == x && pos.getY() == y) {
+            Battlesnake.info("EQUALS!");
+        }
         return pos.getX() == x && pos.getY() == y;
     }
 
