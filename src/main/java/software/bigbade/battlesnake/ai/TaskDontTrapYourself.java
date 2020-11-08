@@ -47,15 +47,16 @@ public class TaskDontTrapYourself implements IAITask {
 
     private int floodFill(Position position, BattlesnakeGame game, Set<Position> checked) {
         int found = 0;
-        for (GameMove move : GameMove.values()) {
-            Position relative = move.getRelative(position);
-            if (!checked.contains(relative) && TaskAvoidWalls.touchingBody(game.getSnakes(), relative)
-                    && relative.getX() >= 0 && relative.getX() < game.getSize().getX()
-                    && relative.getY() >= 0 && relative.getY() < game.getSize().getY()) {
+        if (!checked.contains(position) && TaskAvoidWalls.touchingBody(game.getSnakes(), position)
+                && position.getX() >= 0 && position.getX() < game.getSize().getX()
+                && position.getY() >= 0 && position.getY() < game.getSize().getY()) {
+            for (GameMove move : GameMove.values()) {
+                Position relative = move.getRelative(position);
+
                 checked.add(relative);
                 floodFill(relative, game, checked);
-                found += 1;
             }
+            found += 1;
         }
         return found;
     }
