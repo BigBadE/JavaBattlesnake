@@ -28,14 +28,12 @@ public class TaskDontTrapYourself implements IAITask {
                 continue;
             }
             int empty = floodFill(move.getRelative(snake.getHead()), game, new HashSet<>());
+            Battlesnake.info("EMPTY: {}", empty);
             if (empty == 0) {
-                Battlesnake.info("FILL: EMPTY for {}", move);
                 moves.replace(move, 0d);
                 continue;
             }
             moves.replace(move, game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
-            Battlesnake.info("FILL: {}, {} for {}",
-                    game.getSize().getX() * game.getSize().getY() / (empty/101d) * 5 * moves.get(move), empty, move);
         }
 
         for (int i = 0; i < game.getSnakes().size(); i++) {
@@ -48,8 +46,8 @@ public class TaskDontTrapYourself implements IAITask {
     private int floodFill(Position position, BattlesnakeGame game, Set<Position> checked) {
         int found = 0;
         if (!checked.contains(position) && !TaskAvoidWalls.touchingBody(game.getSnakes(), position)
-                && position.getX() >= 0 && position.getX() < game.getSize().getX()
-                && position.getY() >= 0 && position.getY() < game.getSize().getY()) {
+                && position.getX() >= 0 && position.getX() <= game.getSize().getX()
+                && position.getY() >= 0 && position.getY() <= game.getSize().getY()) {
             found += 1;
             for (GameMove move : GameMove.values()) {
                 Position relative = move.getRelative(position);

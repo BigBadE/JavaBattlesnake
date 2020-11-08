@@ -27,7 +27,6 @@ public class AIManager {
         }
         for(IAITask task : tasks) {
             if(main || task.runOnOthers()) {
-                Battlesnake.info("Calling task " + task);
                 task.executeTask(moves, game, snake);
             }
         }

@@ -42,8 +42,6 @@ public class ResponseHandler {
         JsonObject parsedRequest = JsonParser.parseString(request.body()).getAsJsonObject();
         String uri = request.uri();
 
-        Battlesnake.info("{} called", uri);
-
         Map<String, String> snakeResponse;
         switch (uri) {
             case "/":
@@ -61,8 +59,6 @@ public class ResponseHandler {
             default:
                 throw new IllegalAccessError("Strange call made to the snake: " + uri);
         }
-
-        Battlesnake.info("Responding with: {}", gson.toJson(snakeResponse));
 
         return snakeResponse;
     }
