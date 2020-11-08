@@ -7,6 +7,7 @@ import software.bigbade.battlesnake.util.Position;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,20 +42,18 @@ public class TaskDontTrapYourself implements IAITask {
         valid.add(position);
         Set<Position> checked = new HashSet<>();
         while (!valid.isEmpty()) {
-            for(Position testing : valid) {
+            Iterator<Position> iterator = valid.iterator();
+            while (iterator.hasNext()) {
+                Position testing = iterator.next();
                 if (!checked.contains(testing) && !TaskAvoidWalls.touchingBody(game.getSnakes(), testing)) {
                     checked.add(testing);
-                    valid.remove(testing);
+                    iterator.remove();
                     for(GameMove move : GameMove.values()) {
                         valid.add(move.getRelative(testing));
                     }
                     found += 1;
                 }
             }
-        }
-        for(GameMove move : GameMove.values()) {
-            Position relative = move.getRelative(position);
-
         }
         return found;
     }
