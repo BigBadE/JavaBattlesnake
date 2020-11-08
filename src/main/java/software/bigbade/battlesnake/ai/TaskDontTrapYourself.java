@@ -34,8 +34,8 @@ public class TaskDontTrapYourself implements IAITask {
                 continue;
             }
             moves.replace(move, game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
-            Battlesnake.info("FILL: {} for {}",
-                    game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move), move);
+            Battlesnake.info("FILL: {}, {} for {}",
+                    game.getSize().getX() * game.getSize().getY() / (empty/101d) * 5 * moves.get(move), empty, move);
         }
 
         for (int i = 0; i < game.getSnakes().size(); i++) {
