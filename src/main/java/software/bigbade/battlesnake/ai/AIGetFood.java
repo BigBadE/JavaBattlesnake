@@ -47,7 +47,8 @@ public class AIGetFood implements IAITask {
         double axisDistance = (direction == GameMove.UP || direction == GameMove.DOWN) ?
                 food.getY()-headPosition.getY() : food.getX()-headPosition.getX();
         axisDistance = Math.abs(axisDistance)+1;
-        Battlesnake.info("Getting move for {} (axis distance {}) for {}", direction, axisDistance,
+        Battlesnake.info("Getting move for {} (distance {}, health {}) for {}", direction, distance,
+                101f/(game.getSnake().getHealth()+1),
                 game.getSize().getX()/axisDistance/distance+(101f/(game.getSnake().getHealth()+1)));
         return game.getSize().getX()/axisDistance/distance+(101f/(game.getSnake().getHealth()+1));
     }
