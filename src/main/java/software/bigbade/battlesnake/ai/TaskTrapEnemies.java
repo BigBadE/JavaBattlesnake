@@ -10,7 +10,7 @@ public class TaskTrapEnemies implements IAITask {
     @Override
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, AIManager manager, Snake snake) {
         for(Snake testing : game.getSnakes()) {
-            if(!testing.equals(game.getSnake())) {
+            if(!testing.equals(game.getSnake()) && testing.getSquad() != snake.getSquad()) {
                 GameMove nextMove = manager.getMove(game, testing, false);
                 TaskGetFood.moveTowardsPosition(moves, game, nextMove.getRelative(testing.getHead()));
             }
