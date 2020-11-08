@@ -55,6 +55,7 @@ public class TaskDontTrapYourself implements IAITask {
             found += 1;
             for (GameMove move : GameMove.values()) {
                 Position relative = move.getRelative(position);
+                Battlesnake.info("{}, {} to {}, {}", position.getX(), position.getY(), relative.getX(), relative.getY());
 
                 checked.add(relative);
                 found += floodFill(relative, game, checked);
