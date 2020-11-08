@@ -5,14 +5,16 @@ import software.bigbade.battlesnake.game.BattlesnakeGame;
 import software.bigbade.battlesnake.game.GameMove;
 import software.bigbade.battlesnake.game.Snake;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class AIManager {
-    private final Set<IAITask> tasks = new HashSet<>();
+    private final List<IAITask> tasks = new ArrayList<>();
 
     public AIManager() {
         tasks.add(new TaskAvoidWalls());
