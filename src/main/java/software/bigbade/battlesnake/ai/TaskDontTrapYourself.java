@@ -24,15 +24,17 @@ public class TaskDontTrapYourself implements IAITask {
         }
 
         for (GameMove move : GameMove.values()) {
-            long start = System.currentTimeMillis();
-            int empty = floodFill(move.getRelative(snake.getHead()), game);
-            if(empty == 0) {
-                moves.replace(move, 0d);
-            } else {
-                moves.replace(move, game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
-                Battlesnake.info("FILL TIME: {} for {}", (System.currentTimeMillis() - start),
-                        game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
+            if (moves.get(move) == 0) {
+                continue;
             }
+            int empty = floodFill(move.getRelative(snake.getHead()), game);
+            if (empty == 0) {
+                moves.replace(move, 0d);
+                continue;
+            }
+            moves.replace(move, game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
+            Battlesnake.info("FILL: {} for {}",
+                    game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move), move);
         }
 
         for (int i = 0; i < game.getSnakes().size(); i++) {
@@ -42,7 +44,7 @@ public class TaskDontTrapYourself implements IAITask {
 
     }
 
-    //TODO improve flood fill algorithm for finding empty space. Recursion might be better?
+    //TODO improve flood fill algorithm for finding empty space. Recursion might be better? 0-1ms time so nbd
     private int floodFill(Position position, BattlesnakeGame game) {
         int found = 0;
         Set<Position> valid = new HashSet<>();
