@@ -15,6 +15,7 @@ import java.util.Set;
 public class TaskDontTrapYourself implements IAITask {
     @Override
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
+        long start = System.currentTimeMillis();
         //Remove the tail to simulate snake movement. Could get juked if the snake eats an apple.
         List<Position> extraTails = new ArrayList<>();
         for(Snake found : game.getSnakes()) {
@@ -33,6 +34,7 @@ public class TaskDontTrapYourself implements IAITask {
             Snake found = game.getSnakes().get(i);
             found.getBody().add(extraTails.get(i));
         }
+        System.out.println("FILL TIME: " + (System.currentTimeMillis()-start));
     }
 
     //TODO improve flood fill algorithm for finding empty space
