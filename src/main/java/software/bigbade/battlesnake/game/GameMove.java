@@ -8,9 +8,9 @@ import software.bigbade.battlesnake.util.Position;
 @RequiredArgsConstructor
 public enum GameMove {
     UP("up", 0, -1),
-    RIGHT("right", 1, 0),
+    RIGHT("right", -1, 0),
     DOWN("down", 0, 1),
-    LEFT("left", -1, 0);
+    LEFT("left", 1, 0);
 
     private final String key;
     private final int x;
