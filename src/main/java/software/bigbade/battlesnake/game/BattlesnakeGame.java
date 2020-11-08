@@ -13,6 +13,8 @@ import java.util.List;
 public class BattlesnakeGame {
     private final Snake snake;
     private final Position size;
+    private int defaultEmptyTiles = 0;
+    private int emptyTiles;
 
     private final List<Position> food = new ArrayList<>();
     private final List<Position> hazards = new ArrayList<>();
@@ -20,7 +22,7 @@ public class BattlesnakeGame {
 
     public BattlesnakeGame(JsonObject board, String snake) {
         size = new Position(board.get("width").getAsInt()-1, board.get("height").getAsInt()-1);
-
+        defaultEmptyTiles = size.getX()*size.getY();
         for(JsonElement element : board.get("food").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
             food.add(JsonUtil.getPosition(object));
@@ -29,8 +31,10 @@ public class BattlesnakeGame {
         for(JsonElement element : board.get("hazards").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
             hazards.add(JsonUtil.getPosition(object));
+            defaultEmptyTiles -= 1;
         }
 
+        emptyTiles = defaultEmptyTiles;
         int numb = 1;
         for(JsonElement element : board.get("snakes").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
@@ -40,10 +44,12 @@ public class BattlesnakeGame {
                 body.add(JsonUtil.getPosition(bodyObject));
             }
             JsonObject head = object.get("head").getAsJsonObject();
-            snakes.add(new Snake(object.get("id").getAsString(),
+            Snake newSnake = new Snake(object.get("id").getAsString(),
                     JsonUtil.getPosition(head), body,
                     object.get("health").getAsInt(), object.get("length").getAsInt(),
-                    object.has("squad") ? object.get("squad").getAsInt() : numb++));
+                    object.has("squad") ? object.get("squad").getAsInt() : numb++);
+            emptyTiles -= newSnake.getLength();
+            snakes.add(newSnake);
         }
         this.snake = getSnakeByID(snake);
     }
@@ -55,6 +61,7 @@ public class BattlesnakeGame {
             food.add(JsonUtil.getPosition(object));
         }
 
+        emptyTiles = defaultEmptyTiles;
         for(JsonElement element : board.get("snakes").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
             Snake updating = getSnakeByID(object.get("id").getAsString());
@@ -67,6 +74,7 @@ public class BattlesnakeGame {
             updating.setHealth(object.get("health").getAsInt());
             updating.setLength(object.get("length").getAsInt());
             updating.setHead(JsonUtil.getPosition(object.get("head").getAsJsonObject()));
+            emptyTiles -= updating.getLength();
         }
     }
 

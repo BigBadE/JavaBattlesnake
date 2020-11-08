@@ -9,7 +9,7 @@ import software.bigbade.battlesnake.util.Position;
 import java.util.List;
 import java.util.Map;
 
-public class AvoidWalls implements IAITask {
+public class TaskAvoidWalls implements IAITask {
     @Override
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
         for (GameMove move : GameMove.values()) {
@@ -24,7 +24,7 @@ public class AvoidWalls implements IAITask {
     }
 
     //TODO possibly optimize this.
-    private static boolean touchingBody(List<Snake> snakes, Position position) {
+    public static boolean touchingBody(List<Snake> snakes, Position position) {
         for(Snake testing : snakes) {
             for(Position body : testing.getBody()) {
                 if(body.equals(position)) {

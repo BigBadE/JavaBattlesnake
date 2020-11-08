@@ -8,7 +8,7 @@ import software.bigbade.battlesnake.util.Position;
 
 import java.util.Map;
 
-public class AIGetFood implements IAITask {
+public class TaskGetFood implements IAITask {
     @Override
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
         //Get closest food

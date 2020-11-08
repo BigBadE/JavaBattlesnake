@@ -15,8 +15,9 @@ public class AIManager {
     private final Set<IAITask> tasks = new HashSet<>();
 
     public AIManager() {
-        tasks.add(new AvoidWalls());
-        tasks.add(new AIGetFood());
+        tasks.add(new TaskAvoidWalls());
+        tasks.add(new TaskGetFood());
+        tasks.add(new TaskDontTrapYourself());
     }
 
     public GameMove getMove(BattlesnakeGame game, Snake snake, boolean main) {
