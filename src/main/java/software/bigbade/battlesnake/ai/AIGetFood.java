@@ -1,5 +1,6 @@
 package software.bigbade.battlesnake.ai;
 
+import software.bigbade.battlesnake.Battlesnake;
 import software.bigbade.battlesnake.game.BattlesnakeGame;
 import software.bigbade.battlesnake.game.GameMove;
 import software.bigbade.battlesnake.game.Snake;
@@ -44,6 +45,8 @@ public class AIGetFood implements IAITask {
         double axisDistance = (direction == GameMove.UP || direction == GameMove.DOWN) ?
                 food.getY()-headPosition.getY() : food.getX()-headPosition.getX();
         axisDistance = Math.abs(axisDistance);
+        Battlesnake.info("Getting move for {} (axis distance {}) for {}", direction, axisDistance,
+                game.getSize().getX()/axisDistance/distance+(101f/(game.getSnake().getHealth()+1)));
         return game.getSize().getX()/axisDistance/distance+(101f/(game.getSnake().getHealth()+1));
     }
 

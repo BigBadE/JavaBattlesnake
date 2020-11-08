@@ -14,8 +14,6 @@ public class AvoidWalls implements IAITask {
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
         for (GameMove move : GameMove.values()) {
             Position relative = move.getRelative(snake.getHead());
-            Battlesnake.info("Testing direction: " + move + "(" + relative.getX() + ", " + relative.getY() + ")"
-                    + " size (" + game.getSize().getX() + ", " + game.getSize().getY() + ")");
             if (game.getHazards().contains(relative)
                     || relative.getX() > game.getSize().getX() || relative.getY() > game.getSize().getY()
                     || relative.getX() == -1 || relative.getY() == -1
