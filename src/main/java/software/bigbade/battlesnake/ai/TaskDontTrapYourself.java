@@ -47,6 +47,9 @@ public class TaskDontTrapYourself implements IAITask {
 
     private int floodFill(Position position, BattlesnakeGame game, Set<Position> checked) {
         int found = 0;
+        Battlesnake.info("{}, {}, {}, {}, {}, {}", !checked.contains(position),
+                TaskAvoidWalls.touchingBody(game.getSnakes(), position), position.getX() >= 0,
+                position.getX() < game.getSize().getX(), position.getY() >= 0, position.getY() < game.getSize().getY());
         if (!checked.contains(position) && TaskAvoidWalls.touchingBody(game.getSnakes(), position)
                 && position.getX() >= 0 && position.getX() < game.getSize().getX()
                 && position.getY() >= 0 && position.getY() < game.getSize().getY()) {
