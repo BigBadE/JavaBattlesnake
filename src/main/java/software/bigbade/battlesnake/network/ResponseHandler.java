@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import software.bigbade.battlesnake.Battlesnake;
 import software.bigbade.battlesnake.arguments.SnakeArguments;
+import software.bigbade.battlesnake.game.GameManager;
+import software.bigbade.battlesnake.game.GameMove;
 import spark.Request;
 import spark.Response;
 
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+@SuppressWarnings("unused")
 @RequiredArgsConstructor
 public class ResponseHandler {
     /**
@@ -26,6 +29,7 @@ public class ResponseHandler {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private final SnakeArguments arguments;
+    private final GameManager gameManager;
 
     /**
      * Generic processor that prints out the request and response from the methods.
@@ -35,33 +39,32 @@ public class ResponseHandler {
      * @return Content to send to the Battlesnake server
      */
     public Map<String, String> process(Request request, Response response) {
-        try {
-            JsonObject parsedRequest = JsonParser.parseString(request.body()).getAsJsonObject();
-            String uri = request.uri();
-            Battlesnake.LOGGER.info("{} called with: {}", uri, request.body());
-            Map<String, String> snakeResponse;
-            switch (uri) {
-                case "/":
-                    snakeResponse = index();
-                    break;
-                case "/start":
-                    snakeResponse = start(parsedRequest);
-                    break;
-                case "/move":
-                    snakeResponse = move(parsedRequest);
-                    break;
-                case "/end":
-                    snakeResponse = end(parsedRequest);
-                    break;
-                default:
-                    throw new IllegalAccessError("Strange call made to the snake: " + uri);
-            }
-            Battlesnake.LOGGER.info("Responding with: {}", gson.toJson(snakeResponse));
-            return snakeResponse;
-        } catch (Exception e) {
-            Battlesnake.LOGGER.warn("Something went wrong!", e);
-            return null;
+        JsonObject parsedRequest = JsonParser.parseString(request.body()).getAsJsonObject();
+        String uri = request.uri();
+
+        Battlesnake.info("{} called with: {}", uri, request.body());
+
+        Map<String, String> snakeResponse;
+        switch (uri) {
+            case "/":
+                snakeResponse = index();
+                break;
+            case "/start":
+                snakeResponse = start(parsedRequest);
+                break;
+            case "/move":
+                snakeResponse = move(parsedRequest);
+                break;
+            case "/end":
+                snakeResponse = end(parsedRequest);
+                break;
+            default:
+                throw new IllegalAccessError("Strange call made to the snake: " + uri);
         }
+
+        Battlesnake.info("Responding with: {}", gson.toJson(snakeResponse));
+
+        return snakeResponse;
     }
 
 
@@ -94,6 +97,7 @@ public class ResponseHandler {
      */
     public Map<String, String> start(JsonObject startRequest) {
         Battlesnake.LOGGER.info("START");
+        gameManager.createGame(startRequest);
         return EMPTY;
     }
 
@@ -108,24 +112,14 @@ public class ResponseHandler {
      * @return a response back to the engine containing Battlesnake movement values.
      */
     public Map<String, String> move(JsonObject moveRequest) {
-        Battlesnake.LOGGER.info("Data: {}", gson.toJson(moveRequest));
+        Battlesnake.info("Data: {}", gson.toJson(moveRequest));
 
-        /*
-        Example how to retrieve data from the request payload:
-        String gameId = moveRequest.get("game").get("id").asText();
-        int height = moveRequest.get("board").get("height").asInt();
-        */
+        GameMove move = gameManager.tickGame(moveRequest);
 
-        String[] possibleMoves = {"up", "down", "left", "right"};
-
-        // Choose a random direction to move in
-        int choice = new Random().nextInt(possibleMoves.length);
-        String move = possibleMoves[choice];
-
-        Battlesnake.LOGGER.info("MOVE {}", move);
+        Battlesnake.info("MOVE {}", move);
 
         Map<String, String> response = new HashMap<>();
-        response.put("move", move);
+        response.put("move", move.getKey());
         return response;
     }
 

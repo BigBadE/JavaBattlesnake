@@ -32,8 +32,6 @@ test {
 }
 
 //Required for Heroku
-task stage(dependsOn: ['build', 'clean']) {
-
-}
+task stage(dependsOn: ['build', 'clean'])
 
 build.mustRunAfter clean
