@@ -2,7 +2,6 @@ package software.bigbade.battlesnake.util;
 
 import lombok.Getter;
 import lombok.Setter;
-import software.bigbade.battlesnake.Battlesnake;
 
 @Getter
 @Setter
@@ -34,6 +33,6 @@ public class Position {
 
     @Override
     public int hashCode() {
-        return x * y;
+        return x * 31 + y;
     }
 }
