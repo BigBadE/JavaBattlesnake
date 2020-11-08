@@ -42,18 +42,17 @@ public class TaskDontTrapYourself implements IAITask {
         valid.add(position);
         Set<Position> checked = new HashSet<>();
         while (!valid.isEmpty()) {
-            Iterator<Position> iterator = valid.iterator();
-            while (iterator.hasNext()) {
-                Position testing = iterator.next();
+            Set<Position> nextCycle = new HashSet<>();
+            for (Position testing : valid) {
                 if (!checked.contains(testing) && !TaskAvoidWalls.touchingBody(game.getSnakes(), testing)) {
                     checked.add(testing);
-                    iterator.remove();
-                    for(GameMove move : GameMove.values()) {
-                        valid.add(move.getRelative(testing));
+                    for (GameMove move : GameMove.values()) {
+                        nextCycle.add(move.getRelative(testing));
                     }
                     found += 1;
                 }
             }
+            valid = nextCycle;
         }
         return found;
     }
