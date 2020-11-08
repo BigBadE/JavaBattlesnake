@@ -27,13 +27,13 @@ public class TaskDontTrapYourself implements IAITask {
             if (moves.get(move) == 0) {
                 continue;
             }
-            int empty = floodFill(move.getRelative(snake.getHead()), game);
+            int empty = floodFill(move.getRelative(snake.getHead()), game, new HashSet<>());
             if (empty == 0) {
                 Battlesnake.info("FILL: EMPTY for {}", move);
-                moves.replace(move.getOpposite(), 0d);
+                moves.replace(move, 0d);
                 continue;
             }
-            moves.replace(move.getOpposite(), game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
+            moves.replace(move, game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
             Battlesnake.info("FILL: {} for {}",
                     game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move), move);
         }
@@ -45,28 +45,16 @@ public class TaskDontTrapYourself implements IAITask {
 
     }
 
-    //TODO improve flood fill algorithm for finding empty space. Recursion might be better? 0-1ms time so nbd
-    private int floodFill(Position position, BattlesnakeGame game) {
+    private int floodFill(Position position, BattlesnakeGame game, Set<Position> checked) {
         int found = 0;
-        Set<Position> valid = new HashSet<>();
-        valid.add(position);
-        Set<Position> checked = new HashSet<>();
-        while (!valid.isEmpty()) {
-            Set<Position> nextCycle = new HashSet<>();
-            for (Position testing : valid) {
-                if (!checked.contains(testing) && !TaskAvoidWalls.touchingBody(game.getSnakes(), testing)) {
-                    checked.add(testing);
-                    for (GameMove move : GameMove.values()) {
-                        Position relative = move.getRelative(testing);
-                        if (relative.getX() >= 0 && relative.getX() < game.getSize().getX()
-                                && relative.getY() >= 0 && relative.getY() < game.getSize().getY()) {
-                            nextCycle.add(relative);
-                        }
-                    }
-                    found += 1;
-                }
+        for (GameMove move : GameMove.values()) {
+            Position relative = move.getRelative(position);
+            if (!checked.contains(relative) && relative.getX() >= 0 && relative.getX() < game.getSize().getX()
+                    && relative.getY() >= 0 && relative.getY() < game.getSize().getY()) {
+                checked.add(relative);
+                floodFill(relative, game, checked);
+                found += 1;
             }
-            valid = nextCycle;
         }
         return found;
     }
