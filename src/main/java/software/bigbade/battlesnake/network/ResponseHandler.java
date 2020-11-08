@@ -42,7 +42,7 @@ public class ResponseHandler {
         JsonObject parsedRequest = JsonParser.parseString(request.body()).getAsJsonObject();
         String uri = request.uri();
 
-        Battlesnake.info("{} called with: {}", uri, request.body());
+        Battlesnake.info("{} called", uri);
 
         Map<String, String> snakeResponse;
         switch (uri) {
@@ -112,8 +112,6 @@ public class ResponseHandler {
      * @return a response back to the engine containing Battlesnake movement values.
      */
     public Map<String, String> move(JsonObject moveRequest) {
-        Battlesnake.info("Data: {}", gson.toJson(moveRequest));
-
         GameMove move = gameManager.tickGame(moveRequest);
 
         Battlesnake.info("MOVE {}", move);
