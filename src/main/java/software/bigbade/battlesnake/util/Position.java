@@ -16,8 +16,6 @@ public class Position {
     }
 
     public double distanceSquared(Position other) {
-        Battlesnake.info("({}-{})^2+({}-{})^2={}", x, other.getX(), y, other.getY(),
-                Math.pow(x-other.getX(), 2)+Math.pow(y-other.getY(), 2));
         return Math.pow(x-other.getX(), 2)+Math.pow(y-other.getY(), 2);
     }
 
