@@ -67,7 +67,7 @@ public class TaskDontTrapYourself implements IAITask {
             }
 
             if ((position.getY() > 0) && !arr[position.getX()][position.getY() - 1]
-                    && !checked[position.getX() + 1][position.getY()]) {
+                    && !checked[position.getX()][position.getY() - 1]) {
                 checked[position.getX()][position.getY() - 1] = true;
                 index++;
                 stack[index][0] = position.getX();
