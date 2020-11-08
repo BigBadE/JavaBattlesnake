@@ -1,5 +1,6 @@
 package software.bigbade.battlesnake.ai;
 
+import software.bigbade.battlesnake.Battlesnake;
 import software.bigbade.battlesnake.game.BattlesnakeGame;
 import software.bigbade.battlesnake.game.GameMove;
 import software.bigbade.battlesnake.game.Snake;
@@ -12,9 +13,11 @@ public class AvoidWalls implements IAITask {
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
         for(GameMove move : GameMove.values()) {
             Position relative = move.getRelative(snake.getHead());
+            Battlesnake.info("Testing direction: " + move + "(" + relative.getX() + ", " + relative.getY() + ")");
             if(game.getHazards().contains(relative)
                     || relative.getX() > game.getSize().getX() || relative.getY() > game.getSize().getY()
                     || relative.getX() == -1 || relative.getY() == -1) {
+                Battlesnake.info("Found wall: " + move);
                 moves.replace(move, 0d);
             }
         }
