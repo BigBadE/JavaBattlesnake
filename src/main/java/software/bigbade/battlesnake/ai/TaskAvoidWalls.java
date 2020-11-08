@@ -24,7 +24,6 @@ public class TaskAvoidWalls implements IAITask {
             if (relative.getX() > game.getSize().getX() || relative.getY() > game.getSize().getY()
                     || relative.getX() == -1 || relative.getY() == -1
                     || game.getBoard()[relative.getX()][relative.getY()]) {
-                Battlesnake.info("Wall at {}", move);
                 moves.replace(move, 0d);
             }
         }

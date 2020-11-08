@@ -26,6 +26,7 @@ public class TaskDontTrapYourself implements IAITask {
                 cachedRoot = Math.pow(3, 1d/(game.getSize().getX()*game.getSize().getY()));
             }
             int empty = fillArea(move.getRelative(snake.getHead()), game.getBoard());
+            Battlesnake.info("EMPTY: {}, MOVE {}", empty, move);
             moves.replace(move, (5*Math.pow(cachedRoot, empty)-5) * moves.get(move));
         }
 

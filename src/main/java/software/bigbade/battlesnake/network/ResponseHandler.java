@@ -109,8 +109,6 @@ public class ResponseHandler {
     public Map<String, String> move(JsonObject moveRequest) {
         GameMove move = gameManager.tickGame(moveRequest);
 
-        Battlesnake.info("MOVE {}", move);
-
         Map<String, String> response = new HashMap<>();
         response.put("move", move.getKey());
         return response;

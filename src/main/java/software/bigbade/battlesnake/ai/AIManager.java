@@ -41,13 +41,14 @@ public class AIManager {
             }
         }
 
+        //Make sure all AI tasks have executed in the correct order.
         for(Future<?> future : futures) {
             try {
                 future.get();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } catch (ExecutionException e) {
-                Battlesnake.LOGGER.error("Error running AI task", e);
+                Battlesnake.LOGGER.error("Error running AI task", e.getCause());
             }
         }
 
