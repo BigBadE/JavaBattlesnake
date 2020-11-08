@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 public class BattlesnakeGame {
-    private final String snake;
+    private final Snake snake;
     private final Position size;
 
     private final List<Position> food = new ArrayList<>();
@@ -19,7 +19,6 @@ public class BattlesnakeGame {
     private final List<Snake> snakes = new ArrayList<>();
 
     public BattlesnakeGame(JsonObject board, String snake) {
-        this.snake = snake;
         size = new Position(board.get("width").getAsInt(), board.get("height").getAsInt());
 
         for(JsonElement element : board.get("food").getAsJsonArray()) {
@@ -46,6 +45,7 @@ public class BattlesnakeGame {
                     object.get("health").getAsInt(), object.get("length").getAsInt(),
                     object.has("squad") ? object.get("squad").getAsInt() : numb++));
         }
+        this.snake = getSnakeByID(snake);
     }
 
     public void update(JsonObject board) {

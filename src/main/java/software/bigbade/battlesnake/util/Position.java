@@ -14,6 +14,10 @@ public class Position {
         this.y = y;
     }
 
+    public double distanceSquared(Position other) {
+        return Math.pow(x-other.getX(), 2)-Math.pow(y-other.getY(), 2);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Position)) {

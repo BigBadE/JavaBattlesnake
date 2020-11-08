@@ -19,7 +19,7 @@ public class GameManager {
 
         game.update(board);
 
-        return aiManager.getMove(game, game.getSnakeByID(game.getSnake()), true);
+        return aiManager.getMove(game, game.getSnake(), true);
     }
 
     public void createGame(JsonObject object) {
