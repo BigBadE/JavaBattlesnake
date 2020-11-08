@@ -17,6 +17,7 @@ public class AIManager {
 
     public AIManager() {
         tasks.add(new AvoidWalls());
+        tasks.add(new AIGetFood());
     }
 
     public GameMove getMove(BattlesnakeGame game, Snake snake, boolean main) {
