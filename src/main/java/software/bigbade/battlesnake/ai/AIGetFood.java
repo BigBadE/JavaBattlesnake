@@ -42,6 +42,10 @@ public class AIGetFood implements IAITask {
     public double getModifier(BattlesnakeGame game, Position food, GameMove direction) {
         Position headPosition = game.getSnake().getHead();
         double distance = food.distanceSquared(headPosition);
+        if(distance < 2*2) {
+            //We wanna grab any close food
+            return 3;
+        }
         double axisDistance = (direction == GameMove.UP || direction == GameMove.DOWN) ?
                 food.getY()-headPosition.getY() : food.getX()-headPosition.getX();
         axisDistance = Math.abs(axisDistance)+1;
