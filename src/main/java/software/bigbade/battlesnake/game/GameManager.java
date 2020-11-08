@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameManager {
-    private final Map<Integer, BattlesnakeGame> games = new HashMap<>();
+    private final Map<String, BattlesnakeGame> games = new HashMap<>();
 
     private final AIManager aiManager = new AIManager();
 

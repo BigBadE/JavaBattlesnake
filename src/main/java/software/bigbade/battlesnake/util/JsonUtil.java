@@ -10,7 +10,7 @@ public final class JsonUtil {
         return new Position(object.get("x").getAsInt(), object.get("y").getAsInt());
     }
 
-    public static int getId(JsonElement object) {
-        return object.getAsJsonObject().get("id").getAsInt();
+    public static String getId(JsonElement object) {
+        return object.getAsJsonObject().get("id").getAsString();
     }
 }
