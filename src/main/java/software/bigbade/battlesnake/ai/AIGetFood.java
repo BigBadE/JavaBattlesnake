@@ -16,25 +16,25 @@ public class AIGetFood implements IAITask {
         for(Position food : game.getFood()) {
             switch (Integer.compare(food.getX(), headPosition.getX())) {
                 case 1:
-                    moves.replace(GameMove.LEFT, moves.get(GameMove.LEFT)*
-                            getModifier(game, food, GameMove.LEFT));
+                    moves.replace(GameMove.RIGHT, moves.get(GameMove.RIGHT)*
+                            getModifier(game, food, GameMove.RIGHT));
                     break;
                 case 0:
                     break;
                 case -1:
-                    moves.replace(GameMove.RIGHT, moves.get(GameMove.RIGHT)*
-                            getModifier(game, food, GameMove.RIGHT));
+                    moves.replace(GameMove.LEFT, moves.get(GameMove.LEFT)*
+                            getModifier(game, food, GameMove.LEFT));
             }
             switch (Integer.compare(food.getY(), headPosition.getY())) {
                 case 1:
-                    moves.replace(GameMove.UP, moves.get(GameMove.UP)*
-                            getModifier(game, food, GameMove.UP));
+                    moves.replace(GameMove.DOWN, moves.get(GameMove.DOWN)*
+                            getModifier(game, food, GameMove.DOWN));
                     break;
                 case 0:
                     break;
                 case -1:
-                    moves.replace(GameMove.DOWN, moves.get(GameMove.DOWN)*
-                            getModifier(game, food, GameMove.DOWN));
+                    moves.replace(GameMove.UP, moves.get(GameMove.UP)*
+                            getModifier(game, food, GameMove.UP));
             }
         }
     }
