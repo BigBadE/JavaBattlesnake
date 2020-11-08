@@ -25,7 +25,7 @@ public class AIManager {
             moves.put(move, 1d);
         }
         for(IAITask task : tasks) {
-            if(!main && !task.runOnOthers()) {
+            if(main || task.runOnOthers()) {
                 task.executeTask(moves, game, snake);
             }
         }
