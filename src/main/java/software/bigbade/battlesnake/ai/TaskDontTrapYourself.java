@@ -21,7 +21,7 @@ public class TaskDontTrapYourself implements IAITask {
             if (moves.get(move) == 0) {
                 continue;
             }
-            int empty = fillArea(move.getRelative(snake.getHead()), game.getBoard());
+            int empty = fillArea(move.getRelative(snake.getHead()), game.getBoard().clone());
             Battlesnake.info("EMPTY: {} for {}", empty, move);
             if (empty == 0) {
                 moves.replace(move, .01d);
