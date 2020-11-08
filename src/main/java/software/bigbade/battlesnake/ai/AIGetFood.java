@@ -13,7 +13,9 @@ public class AIGetFood implements IAITask {
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
         //Get closest food
         Position headPosition = game.getSnake().getHead();
+        Battlesnake.info("Checking food");
         for(Position food : game.getFood()) {
+            Battlesnake.info("Found food");
             switch (Integer.compare(food.getX(), headPosition.getX())) {
                 case 1:
                     moves.replace(GameMove.LEFT, moves.get(GameMove.LEFT)*
