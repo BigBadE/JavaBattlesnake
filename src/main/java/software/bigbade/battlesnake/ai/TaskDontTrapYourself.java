@@ -15,7 +15,7 @@ public class TaskDontTrapYourself implements IAITask {
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, Snake snake) {
         //Remove the tail to simulate snake movement. Could get juked if the snake eats an apple.
         for (Snake found : game.getSnakes()) {
-            Position tail = found.getBody().get(found.getBody().size()-1);
+            Position tail = found.getBody().get(found.getBody().size() - 1);
             game.getBoard()[tail.getX()][tail.getY()] = false;
         }
 
@@ -33,16 +33,16 @@ public class TaskDontTrapYourself implements IAITask {
         }
 
         for (Snake found : game.getSnakes()) {
-            Position tail = found.getBody().get(found.getBody().size()-1);
+            Position tail = found.getBody().get(found.getBody().size() - 1);
             game.getBoard()[tail.getX()][tail.getY()] = true;
         }
     }
 
     private int floodFill(Position position, BattlesnakeGame game, Set<Position> checked) {
         int found = 0;
-        if (!checked.contains(position) && !game.getBoard()[position.getX()][position.getY()]
-                && position.getX() >= 0 && position.getX() <= game.getSize().getX()
-                && position.getY() >= 0 && position.getY() <= game.getSize().getY()) {
+        if (position.getX() >= 0 && position.getX() <= game.getSize().getX()
+                && position.getY() >= 0 && position.getY() <= game.getSize().getY()
+                && !checked.contains(position) && !game.getBoard()[position.getX()][position.getY()]) {
             found += 1;
             for (GameMove move : GameMove.values()) {
                 Position relative = move.getRelative(position);
