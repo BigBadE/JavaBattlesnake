@@ -1,5 +1,6 @@
 package software.bigbade.battlesnake.ai;
 
+import software.bigbade.battlesnake.Battlesnake;
 import software.bigbade.battlesnake.game.BattlesnakeGame;
 import software.bigbade.battlesnake.game.GameMove;
 import software.bigbade.battlesnake.game.Snake;
@@ -34,7 +35,7 @@ public class TaskDontTrapYourself implements IAITask {
             Snake found = game.getSnakes().get(i);
             found.getBody().add(extraTails.get(i));
         }
-        System.out.println("FILL TIME: " + (System.currentTimeMillis()-start));
+        Battlesnake.info("FILL TIME: {}", (System.currentTimeMillis()-start));
     }
 
     //TODO improve flood fill algorithm for finding empty space
