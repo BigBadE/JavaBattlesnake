@@ -30,7 +30,7 @@ public class TaskDontTrapYourself implements IAITask {
             int empty = floodFill(move.getRelative(snake.getHead()), game, new HashSet<>());
             Battlesnake.info("EMPTY: {}", empty);
             if (empty == 0) {
-                moves.replace(move, 0d);
+                moves.replace(move, .01d);
                 continue;
             }
             moves.replace(move, game.getSize().getX() * game.getSize().getY() / empty * 5 * moves.get(move));
@@ -40,7 +40,6 @@ public class TaskDontTrapYourself implements IAITask {
             Snake found = game.getSnakes().get(i);
             found.getBody().add(extraTails.get(i));
         }
-
     }
 
     private int floodFill(Position position, BattlesnakeGame game, Set<Position> checked) {
