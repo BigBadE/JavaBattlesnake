@@ -19,14 +19,14 @@ public class GameManager {
 
         game.update(board);
 
-        return aiManager.getMove(game, game.getSnake("walllover"), true);
+        return aiManager.getMove(game, game.getSnakeByID(game.getSnake()), true);
     }
 
     public void createGame(JsonObject object) {
         JsonObject game = object.get("game").getAsJsonObject();
         JsonObject board = object.get("board").getAsJsonObject();
 
-        BattlesnakeGame battlesnakeGame = new BattlesnakeGame(board);
+        BattlesnakeGame battlesnakeGame = new BattlesnakeGame(board, JsonUtil.getId(object.get("you")));
 
         games.put(JsonUtil.getId(game), battlesnakeGame);
     }

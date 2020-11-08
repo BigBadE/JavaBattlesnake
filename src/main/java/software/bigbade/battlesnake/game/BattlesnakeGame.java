@@ -11,13 +11,15 @@ import java.util.List;
 
 @Getter
 public class BattlesnakeGame {
+    private final String snake;
     private final Position size;
 
     private final List<Position> food = new ArrayList<>();
     private final List<Position> hazards = new ArrayList<>();
     private final List<Snake> snakes = new ArrayList<>();
 
-    public BattlesnakeGame(JsonObject board) {
+    public BattlesnakeGame(JsonObject board, String snake) {
+        this.snake = snake;
         size = new Position(board.get("width").getAsInt(), board.get("height").getAsInt());
 
         for(JsonElement element : board.get("food").getAsJsonArray()) {
@@ -55,23 +57,23 @@ public class BattlesnakeGame {
 
         for(JsonElement element : board.get("snakes").getAsJsonArray()) {
             JsonObject object = (JsonObject) element;
-            Snake snake = getSnake(object.get("id").getAsString());
+            Snake updating = getSnakeByID(object.get("id").getAsString());
             List<Position> body = new ArrayList<>();
             for(JsonElement bodyElement : object.get("body").getAsJsonArray()) {
                 JsonObject bodyObject = (JsonObject) bodyElement;
                 body.add(JsonUtil.getPosition(bodyObject));
             }
-            snake.setBody(body);
-            snake.setHealth(object.get("health").getAsInt());
-            snake.setLength(object.get("length").getAsInt());
-            snake.setHead(JsonUtil.getPosition(object.get("head").getAsJsonObject()));
+            updating.setBody(body);
+            updating.setHealth(object.get("health").getAsInt());
+            updating.setLength(object.get("length").getAsInt());
+            updating.setHead(JsonUtil.getPosition(object.get("head").getAsJsonObject()));
         }
     }
 
-    public Snake getSnake(String id) {
-        for(Snake snake : snakes) {
-            if(snake.getId().equals(id)) {
-                return snake;
+    public Snake getSnakeByID(String id) {
+        for(Snake found : snakes) {
+            if(found.getId().equals(id)) {
+                return found;
             }
         }
         throw new IllegalArgumentException("No snake with ID " + id);
