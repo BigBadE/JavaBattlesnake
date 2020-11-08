@@ -47,6 +47,9 @@ public class TaskDontTrapYourself implements IAITask {
         while (!valid.isEmpty()) {
             Set<Position> nextCycle = new HashSet<>();
             for (Position testing : valid) {
+                if(checked.contains(testing)) {
+                    Battlesnake.info("TEST ING");
+                }
                 if (!checked.contains(testing) && !TaskAvoidWalls.touchingBody(game.getSnakes(), testing)) {
                     checked.add(testing);
                     for (GameMove move : GameMove.values()) {
