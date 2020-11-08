@@ -86,6 +86,7 @@ public class BattlesnakeGame {
             updating.setHealth(object.get("health").getAsInt());
             updating.setLength(object.get("length").getAsInt());
             updating.setHead(JsonUtil.getPosition(object.get("head").getAsJsonObject()));
+            updating.setGrowing(false);
             emptyTiles -= updating.getLength();
         }
     }

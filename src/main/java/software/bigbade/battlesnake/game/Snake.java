@@ -12,6 +12,9 @@ public class Snake {
     private final int squad;
 
     @Setter
+    private boolean growing = true;
+
+    @Setter
     private Position head;
     @Setter
     private List<Position> body;

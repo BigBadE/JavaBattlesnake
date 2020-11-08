@@ -12,6 +12,10 @@ public class TaskGetFood implements IAITask {
     public void executeTask(Map<GameMove, Double> moves, BattlesnakeGame game, AIManager manager, Snake snake) {
 
         for(Position position : game.getFood()) {
+            double distance = position.distanceSquared(snake.getHead());
+            if(distance == 1) {
+                snake.setGrowing(true);
+            }
             moveTowardsPosition(moves, game, position);
         }
     }
@@ -20,7 +24,7 @@ public class TaskGetFood implements IAITask {
         Position headPosition = game.getSnake().getHead();
         double distance = food.distanceSquared(headPosition);
         if(distance < 2*2) {
-            //We wanna grab any close food
+            //We wanna grab any close food/target any close snakes
             return 3;
         }
         double axisDistance = (direction == GameMove.UP || direction == GameMove.DOWN) ?
